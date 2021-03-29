@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="kg">
+    <head>
+        <meta charset="UTF-8">
+        <title>Jun, Blog</title>
+    </head>
+    <body>
+        <h1>Jun Blog</h1>
+
+        {% for post in posts %}
+            <hr/>
+            <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <h3>{{ post.created_at }}</h3>
+            <p>{{ post.content }}</p>
+        {% endfor %}
+    </body>
+</html>
