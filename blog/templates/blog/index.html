@@ -83,7 +83,11 @@
                     {% for post in post_list %}
                     <!-- Blog Post -->
                     <div class="card mb-4">
-                        <img class="card-img-top" src="{{ post.head_image.url }}" alt="Card image cap">
+                        {% if post.head_image %}
+                            <img class="card-img-top" src="{{ post.head_image.url }}" alt="{{ p }} head image">
+                        {% else %}
+                            <img class="card-img-top" src="https://picsum.photos/seed/{{ post.id }}/800/200" alt="random_image">
+                        {% endif %}
                         <div class="card-body">
                             <h2 class="card-title">{{ post.title }}</h2>
                             <p class="card-text">{{ post.content }}</p>
