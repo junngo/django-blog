@@ -2,7 +2,8 @@
 {% load static %}
 <html>
     <head>
-        <title>Blog</title>
+        <title>{% block head_title %}Blog{% endblock %}</title>
+
         <!-- <link href="./bootstrap4/css/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
         <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
 
@@ -12,7 +13,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-              <a class="navbar-brand" href="./index.html">Jun Blog</a>
+              <a class="navbar-brand" href="/blog">Jun Blog</a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -80,6 +81,58 @@
                 <div class="col-md-8 col-lg-9" id="main-area">
                     {% block main_area %}
                     {% endblock %}
+                </div>
+
+                <div class="col-md-4 col-lg-3">
+                    <!-- Search Widget -->
+                    <div class="card my-4">
+                        <h5 class="card-header">Search</h5>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-append">
+                                <button class="btn btn-secondary" type="button">Go!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Categories Widget -->
+                    <div class="card my-4">
+                        <h5 class="card-header">Categories</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                    <a href="#">Web Design</a>
+                                    </li>
+                                    <li>
+                                    <a href="#">HTML</a>
+                                    </li>
+                                    <li>
+                                    <a href="#">Freebies</a>
+                                    </li>
+                                </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                    <a href="#">JavaScript</a>
+                                    </li>
+                                    <li>
+                                    <a href="#">CSS</a>
+                                    </li>
+                                    <li>
+                                    <a href="#">Tutorials</a>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
