@@ -1,11 +1,14 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
 from .models import Post
 
 # Create your tests here.
 class TestView(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user_trump = User.objects.create_user(username="trump", password="somepassword")
+        self.user_obama = User.objects.create_user(username="obama", password="somepassword")
 
     def navbar_test(self, soup):
         navbar = soup.nav
@@ -40,10 +43,12 @@ class TestView(TestCase):
         post_001 = Post.objects.create(
             title="First Post",
             content="This is First Post.",
+            author=self.user_trump,
         )
         post_002 = Post.objects.create(
             title="Second Post",
-            content="Fisrt is not all "
+            content="Fisrt is not all",
+            author=self.user_obama,
         )
         self.assertEqual(Post.objects.count(), 2)
 
@@ -57,10 +62,14 @@ class TestView(TestCase):
 
         self.assertNotIn("No Posts", main_area.text)
 
+        self.assertIn(self.user_trump.username.upper(), main_area.text)
+        self.assertIn(self.user_obama.username.upper(), main_area.text)
+
     def test_post_detail(self):
         post_001 = Post.objects.create(
             title="First Post",
-            content="Hello World. We are First Post."
+            content="Hello World. We are First Post.",
+            author=self.user_trump,
         )
         self.assertEqual(post_001.get_absolute_url(), "/blog/1/")
 
@@ -73,5 +82,6 @@ class TestView(TestCase):
 
         main_area = soup.find("div", id="main-area")
         post_area = main_area.find("div", id="post-area")
+        self.assertIn(self.user_trump.username.upper(), post_area.text)
         self.assertIn(post_001.title, post_area.text)
         self.assertIn(post_001.content, post_area.text)
