@@ -7,4 +7,5 @@ This is a Blog using the Django Framework
 ```
 django-admin startproject config .
 python manage.py startapp blog
+python manage.py shell
 ```

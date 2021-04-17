@@ -6,13 +6,19 @@
     {% if post_list.exists %}
         {% for post in post_list %}
         <!-- Blog Post -->
-        <div class="card mb-4">
+        <div class="card mb-4" id="post-{{ post.pk }}">
             {% if post.head_image %}
                 <img class="card-img-top" src="{{ post.head_image.url }}" alt="{{ p }} head image">
             {% else %}
                 <img class="card-img-top" src="https://picsum.photos/seed/{{ post.id }}/800/200" alt="random_image">
             {% endif %}
             <div class="card-body">
+                {% if post.category %}
+                    <span class="badge badge-secondary float-right">{{ post.category }}</span>
+                {% else %}
+                    <span class="badge badge-secondary float-right">No Category</span>
+                {% endif %}
+
                 <h2 class="card-title">{{ post.title }}</h2>
                 {% if post.hook_text %}
                     <h5 class="text-muted">{{ post.hook_text }}</h5>
@@ -27,7 +33,7 @@
         </div>
         {% endfor %}
     {% else %}
-        <h3>No Posts</h3>
+        <h3>No Post</h3>
     {% endif %}
 
     <!-- Pagination -->
