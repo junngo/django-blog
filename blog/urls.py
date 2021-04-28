@@ -2,6 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # /blog/create_post/
+    path("create_post/", views.PostCreate.as_view()),
+
     # /blog/tag/django/
     path("tag/<str:slug>", views.tag_page),
 
