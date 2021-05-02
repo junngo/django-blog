@@ -212,3 +212,47 @@ class TestView(TestCase):
         last_post = Post.objects.last()
         self.assertEqual(last_post.title, "Making post Form")
         self.assertEqual(last_post.author.username, "obama")
+
+    def test_update_post(self):
+        update_post_url = f"/blog/update_post/{self.post_003.pk}/"
+
+        # Not log in
+        response = self.client.get(update_post_url)
+        self.assertNotEqual(response.status_code, 200)
+
+        # log in, not author on post
+        self.assertNotEqual(self.post_003.author, self.user_trump)
+        self.client.login(
+            username=self.user_trump.username,
+            password="somepassword"
+        )
+        response = self.client.get(update_post_url)
+        self.assertEqual(response.status_code, 403)
+
+        # log in and author on post
+        self.client.login(
+            username=self.post_003.author.username,
+            password="somepassword"
+        )
+        response = self.client.get(update_post_url)
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        self.assertEqual("Edit Post - Blog", soup.title.text)
+        main_area = soup.find("div", id="main-area")
+        self.assertIn("Edit Post", main_area.text)
+
+        response = self.client.post(
+            update_post_url,
+            {
+                "title": "This is 3rd",
+                "content": "Hello, We are the one",
+                "category": self.category_music.pk
+            },
+            follow=True
+        )
+        soup = BeautifulSoup(response.content, "html.parser")
+        main_area = soup.find("div", id="main-area")
+        self.assertIn("This is 3rd", main_area.text)
+        self.assertIn("Hello, We are the one", main_area.text)
+        self.assertIn(self.category_music.name, main_area.text)
