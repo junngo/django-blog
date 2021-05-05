@@ -9,7 +9,11 @@
         {% csrf_token %}
         <table>
             {{ form }}
-            <button type="submit" class="btn btn-primary float-right">Submit</button>
+            <tr>
+                <th><label for="id_tags_str">Tags:</label>Tags:</th>
+                <td><input type="text" name="tags_str" id="id_tags_str"></td>
+            </tr>
         </table>
+        <button type="submit" class="btn btn-primary float-right">Submit</button>
     </form>
 {% endblock %}

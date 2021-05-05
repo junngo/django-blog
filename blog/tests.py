@@ -201,17 +201,26 @@ class TestView(TestCase):
         main_area = soup.find("div", id="main-area")
         self.assertIn("Create New Post", main_area.text)
 
+        tag_str_input = main_area.find("input", id="id_tags_str")
+        self.assertTrue(tag_str_input)
+
         self.client.post(
             "/blog/create_post/",
             {
                 "title": "Making post Form",
                 "content": "Start to makie post Form",
+                "tags_str": "new tag; HanGle Tag, python",
             }
 
         )
         last_post = Post.objects.last()
         self.assertEqual(last_post.title, "Making post Form")
+
         self.assertEqual(last_post.author.username, "obama")
+        self.assertEqual(last_post.tags.count(), 3)
+        self.assertTrue(Tag.objects.get(name="new tag"))
+        self.assertTrue(Tag.objects.get(name="HanGle Tag"))
+        self.assertEqual(Tag.objects.count(), 5)
 
     def test_update_post(self):
         update_post_url = f"/blog/update_post/{self.post_003.pk}/"
