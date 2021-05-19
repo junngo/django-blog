@@ -14,6 +14,9 @@ urlpatterns = [
     # /blog/category/programming/
     path("category/<str:slug>", views.category_page),
 
+    # /blog/1/new_comment/
+    path("<int:pk>/new_comment/", views.new_comment),
+
     # /blog/1/
     path("<int:pk>/", views.PostDetail.as_view()),
 
