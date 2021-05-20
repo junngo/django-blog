@@ -2,6 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # /blog/update_comment/1/
+    path("update_comment/<int:pk>/", views.CommentUpdate.as_view()),
+
     # /blog/update_post/1/
     path("update_post/<int:pk>/", views.PostUpdate.as_view()),
 
